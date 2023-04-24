@@ -7,14 +7,15 @@ const Collection = function (collection) {
 }
 
 Collection.create = (newCollection, result) => {
-  db.query("INSERT INTO collection SET ?", newCollection, (err, res) => {
+  db.query("INSERT INTO collection SET name = ?", newCollection.name, (err, res) => {
     if (err) {
       console.log('error: ', err)
       result(err, null)
       return
     }
-    console.log('created collection: ' + newCollection.id + ' ' + newCollection.name)
-    result(null, { ...newCollection })
+    console.log('created collection: ', newCollection.name)
+    console.log(res[0])
+    result(null, res[0])
   })
 }
 

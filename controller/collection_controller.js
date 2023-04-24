@@ -15,8 +15,8 @@ exports.create = (req, res) => {
     return
   }
   const collection = new Collection({
-    collection_id: req.body.collection_id,
-    collection_name: req.body.collection_name,
+    // collection_id: req.body.collection_id,
+    name: req.body.collection_name,
   })
   Collection.create(collection, (err, data) => {
     if (err) {
