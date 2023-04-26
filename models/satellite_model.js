@@ -84,7 +84,7 @@ Satellite.updateById = (id, satellite, result) => {
 
 Satellite.removeById = (id, result) => {
   id = parseInt(id)
-  db.query('DELETE FROM satellite WHERE id ?', id, (err, res) => {
+  db.query('DELETE FROM satellite WHERE id = ?', id, (err, res) => {
     if (err) {
       console.log('error: ', err)
       result(err, null)
