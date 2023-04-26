@@ -1,10 +1,13 @@
 const Orbit = require('../models/orbit_model.js')
 
-export.init = (req, res) => {
+exports.init = (req, res) => {
   if (!req.body) {
     res.cc('Content can not be empty!')
   } else {
-    const firstPacket = Orbit.createProp(req.body.start, req.body.end)
+    const orbit = new Orbit()
+    const start = new Date(req.body.start)
+    const end = new Date(req.body.end)
+    const firstPacket = Orbit.initCZML(start, end)
     res.send({
       status: 0,
       message: '初始化轨道数据成功',
@@ -13,12 +16,15 @@ export.init = (req, res) => {
   }
 }
 
-export.create = (req, res) => {
+exports.create = (req, res) => {
   if (!req.body) {
     res.cc('Content can not be empty!')
   }
-  const orbit = new Orbit(req.body.satellite)
-  const packet = Orbit.createOne(orbit, req.body.start, req.body.end)
+  const start = new Date(req.body.start)
+  const end = new Date(req.body.end)
+  const sat = req.body.satellite
+  const orbit = new Orbit(sat.id, sat.name, sat.tle1, sat.tle2)
+  const packet = Orbit.createOne(orbit, start, end)
   res.send({
     status: 0,
     message: '创建该卫星轨道数据成功',

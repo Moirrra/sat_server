@@ -26,9 +26,11 @@ app.use((req, res, next) => {
 const satelliteRouter = require('./router/satellite_router')
 const collectionRouter = require('./router/collection_router')
 const assignmentRouter = require('./router/assignment_router')
+const orbitRouter = require('./router/orbit_router')
 app.use('/api/satellite', satelliteRouter)
 app.use('/api/collection', collectionRouter)
 app.use('/api/assignment', assignmentRouter)
+app.use('/api/orbit', orbitRouter)
 
 
 app.listen(8888, function () {

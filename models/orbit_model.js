@@ -1,23 +1,23 @@
 const moment = require('moment')
-const satellite = require('satellite.js')
+const satelliteJS = require('satellite.js')
 const julian = require('julian')
 
 // constructor
-const Orbit = function (satellite) {
-  this.id = satellite.id
-  this.name = satellite.name
-  this.tle1 = satellite.tle1
-  this.tle2 = satellite.tle2
-  this.satrec = satellite.twoline2satrec(this.tle1, this.tle2)
+const Orbit = function (id = 0, name = '', tle1 = '', tle2 = '') {
+  this.id = id
+  this.name = name
+  this.tle1 = tle1
+  this.tle2 = tle2
+  this.satrec = satelliteJS.twoline2satrec(this.tle1, this.tle2)
 }
 
 // 返回CZML的第一个packet
-Orbit.createProp = (start, end) {
+Orbit.initCZML = (start, end) => {
   // 设置开始时间
   let startTime = moment(start.toISOString()).toISOString()
   // 设置结束时间
   let endTime = moment(end.toISOString()).toISOString()
-  // 初始化czml数据
+  // 第一个packet代表Cesium场景
   let firstPacket = {
     "id": "document",
     "name": "CZML Point - Time Dynamic",
@@ -28,13 +28,12 @@ Orbit.createProp = (start, end) {
       "range": "LOOP_STOP", // 达到终止时间后重新循环
       "step": "SYSTEM_CLOCK"
     }
-  })
-
+  }
   return firstPacket
 }
 
 // 返回CZML的一个packet
-Orbit.createOne = (orbit, start, end) {
+Orbit.createOne = (orbit, start, end) => {
   // 设置开始时间
   let startTime = moment(start.toISOString()).toISOString()
   // 设置结束时间
@@ -90,11 +89,12 @@ Orbit.createOne = (orbit, start, end) {
 
   // 计算位置
   // current time 和 epoch time 之间的秒数 原单位是毫秒
-  let sec = (start - julian.toDate(satrec.jdsatepoch)) / 1000
+  let sec = (start - julian.toDate(orbit.satrec.jdsatepoch)) / 1000
+  let pos = [] // 保存位置信息
   // 每60秒计算一个位置信息 获得一圈的位置
   for (let i = sec; i <= sec + minsInDuration * 60; i+=60) {
     // 计算当前卫星位置和速度
-    let positionAndVelocity = satellite.sgp4(satrec, i * 0.0166667) // 0.0166667min = 1sec
+    let positionAndVelocity = satelliteJS.sgp4(orbit.satrec, i * 0.0166667) // 0.0166667min = 1sec
     // 地惯坐标系
     let positionEci = positionAndVelocity.position
     positionEci.x = positionEci.x * 1000
@@ -112,7 +112,7 @@ Orbit.createOne = (orbit, start, end) {
       "fillColor": {
         "rgba": [255, 0, 255, 255]
       },
-      "font": "11pt Arial",
+      "font": "11pt Lucida Console",
       "horizontalOrigin": "LEFT",
       "outlineColor": {
         "rgba": [0, 0, 0, 255]
@@ -172,3 +172,5 @@ Orbit.createOne = (orbit, start, end) {
 
   return czmlPacket
 }
+
+module.exports = Orbit
