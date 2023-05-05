@@ -1,5 +1,5 @@
 const Satellite = require('../models/satellite_model.js')
- 
+
 exports.init = (newSatellite) => {
   const satellite = new Satellite({...newSatellite})
   Satellite.create(satellite, (err, data) => {
@@ -16,7 +16,7 @@ exports.create = (req, res) => {
   }
   // Create a Satellite
   const satellite = new Satellite({
-    satellite_id: req.body.satellite_id,
+    id: req.body.id,
     name: req.body.name,
     tle1: req.body.tle1,
     tle2: req.body.tle2,
@@ -84,10 +84,10 @@ exports.findAll = (req, res) => {
 
 // 根据Id更新一个卫星信息
 exports.update = (req, res) => {
-  req.params.id && Satellite.updateById(req.params.id, (err, data) => {
+  Satellite.updateById(req.body, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.cc(`找不到id为${req.params.id}的卫星`)
+        res.cc(`找不到id为${req.body.id}的卫星`)
       } else res.cc('更新卫星数据失败！')
     } else {
       res.send({

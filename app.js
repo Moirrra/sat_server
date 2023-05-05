@@ -24,10 +24,12 @@ app.use((req, res, next) => {
 
 // 导入并注册路由模块
 const satelliteRouter = require('./router/satellite_router')
+const satelliteInfoRouter = require('./router/satinfo_router')
 const collectionRouter = require('./router/collection_router')
 const assignmentRouter = require('./router/assignment_router')
 const orbitRouter = require('./router/orbit_router')
 app.use('/api/satellite', satelliteRouter)
+app.use('/api/satellite_info', satelliteInfoRouter)
 app.use('/api/collection', collectionRouter)
 app.use('/api/assignment', assignmentRouter)
 app.use('/api/orbit', orbitRouter)

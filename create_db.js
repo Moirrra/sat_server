@@ -17,7 +17,8 @@ function createSatelliteTable() {
     tle1 VARCHAR(70) NOT NULL,
     tle2 VARCHAR(70) NOT NULL,
     tle_updated VARCHAR(40),
-    PRIMARY KEY (id))`,
+    PRIMARY KEY (id),
+    )`,
     (err, res) => {
       if (err) {
         console.log(err)
@@ -27,6 +28,25 @@ function createSatelliteTable() {
     }
   )
 }
+
+function createSatelliteInfoTable() {
+  console.log('createSatelliteTable')
+  db.query(`CREATE TABLE satellite_info (
+    id INT NOT NULL, 
+    status VARCHAR(10),
+    countries VARCHAR(10),
+    PRIMARY KEY (id)
+    )`,
+    (err, res) => {
+      if (err) {
+        console.log(err)
+        throw err
+      }
+      console.log('satellite_info表已经建立')
+    }
+  )
+}
+
 
 function createCollectionTable() {
   db.query(`CREATE TABLE collection (
@@ -75,6 +95,7 @@ function initDefaultData() {
 
 console.log('Database tables created ...')
 createSatelliteTable()
+createSatelliteInfoTable()
 createCollectionTable()
 createAssignmentTable()
 initDefaultData()

@@ -62,8 +62,8 @@ Satellite.findByIdList = (idList, result) => {
   })
 }
 
-Satellite.updateById = (id, satellite, result) => {
-  id = parseInt(id)
+Satellite.updateById = (satellite, result) => {
+  let id = parseInt(satellite.id)
   db.query('UPDATE satellite SET name = ?, tle1 = ?, tle2 = ?, tle_updated = ? WHERE id = ?',
     [satellite.name, satellite.tle1, satellite.tle2, satellite.tle_updated, id],
     (err, res) => {
