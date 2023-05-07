@@ -112,4 +112,5 @@ Satellite.removeAll = (result) => {
   })
 }
 
+
 module.exports = Satellite

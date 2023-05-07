@@ -3,6 +3,8 @@ const express = require('express')
 // 创建 express 服务器实例
 const app = express()
 
+const fs = require('fs')
+
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -22,17 +24,21 @@ app.use((req, res, next) => {
 })
 
 
+
 // 导入并注册路由模块
 const satelliteRouter = require('./router/satellite_router')
 const satelliteInfoRouter = require('./router/satinfo_router')
 const collectionRouter = require('./router/collection_router')
 const assignmentRouter = require('./router/assignment_router')
 const orbitRouter = require('./router/orbit_router')
+const dataRouter = require('./router/data_router')
+
 app.use('/api/satellite', satelliteRouter)
 app.use('/api/satellite_info', satelliteInfoRouter)
 app.use('/api/collection', collectionRouter)
 app.use('/api/assignment', assignmentRouter)
 app.use('/api/orbit', orbitRouter)
+app.use('/api/data', dataRouter)
 
 
 app.listen(8888, function () {

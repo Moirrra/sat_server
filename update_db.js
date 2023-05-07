@@ -37,8 +37,13 @@ async function getSatelliteInfo(url) {
   console.log('保存卫星信息成功！')
 }
 
-getSatellites(apiConfig.tle_url)
-getSatelliteInfo(apiConfig.sat_url)
+// getSatellites(apiConfig.tle_url)
+// getSatelliteInfo(apiConfig.sat_url)
+
+module.exports = {
+  getSatellites,
+  getSatelliteInfo
+}
 
 
 
