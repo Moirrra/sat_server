@@ -81,6 +81,26 @@ function createAssignmentTable() {
   )
 }
 
+function createLinkTable() {
+  db.query(`CREATE TABLE link (
+    id INT NOT NULL AUTO_INCREMENT,
+    collection_id INT NOT NULL,
+    from_id INT NOT NULL,
+    to_id INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (collection_id) REFERENCES collection (id),
+    FOREIGN KEY (from_id) REFERENCES satellite (id),
+    FOREIGN KEY (to_id) REFERENCES satellite (id))`,
+    (err, res) => {
+      if (err) {
+        console.log(err)
+        throw err
+      }
+      console.log('link表已经建立')
+    }
+  )
+}
+
 function initDefaultData() {
   db.query("INSERT INTO collection SET name = 'default'", (err, res) => {
     if (err) {
@@ -94,8 +114,9 @@ function initDefaultData() {
 }
 
 console.log('Database tables created ...')
-createSatelliteTable()
-createSatelliteInfoTable()
-createCollectionTable()
-createAssignmentTable()
-initDefaultData()
+// createSatelliteTable()
+// createSatelliteInfoTable()
+// createCollectionTable()
+// createAssignmentTable()
+createLinkTable()
+// initDefaultData()
