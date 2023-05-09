@@ -30,15 +30,15 @@ const satelliteRouter = require('./router/satellite_router')
 const satelliteInfoRouter = require('./router/satinfo_router')
 const collectionRouter = require('./router/collection_router')
 const assignmentRouter = require('./router/assignment_router')
-const orbitRouter = require('./router/orbit_router')
 const dataRouter = require('./router/data_router')
+const linkRouter = require('./router/link_router')
 
 app.use('/api/satellite', satelliteRouter)
 app.use('/api/satellite_info', satelliteInfoRouter)
 app.use('/api/collection', collectionRouter)
 app.use('/api/assignment', assignmentRouter)
-app.use('/api/orbit', orbitRouter)
 app.use('/api/data', dataRouter)
+app.use('/api/link', linkRouter)
 
 
 app.listen(8888, function () {

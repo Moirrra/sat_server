@@ -46,7 +46,7 @@ exports.downloadTLEList = (req, res) => {
   let result = Satellite.findByIdList(req.body.idList, (err, data) => {
     // console.log('result1: ', data)
     // 生成txt文件
-    const filePath = './static/download/' + 'tle_selected.txt'
+    const filePath = './static/download/' + 'tle.txt'
     let content = ""
     for (let i = 0; i < data.length; i++) {
       content += data[i].name + '\n' + data[i].tle1 + '\n' + data[i].tle2 + '\n'
