@@ -87,6 +87,7 @@ function createLinkTable() {
     collection_id INT NOT NULL,
     from_id INT NOT NULL,
     to_id INT NOT NULL,
+    color VARCHAR(10),
     PRIMARY KEY (id),
     FOREIGN KEY (collection_id) REFERENCES collection (id),
     FOREIGN KEY (from_id) REFERENCES satellite (id),

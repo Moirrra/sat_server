@@ -13,15 +13,40 @@ exports.create = (req, res) => {
   if (!req.body) {
     res.cc('Content can not be empty!')
   }
-  const link = new Link(req.body.collection_id, req.body.from_id, req.body.to_id)
+  const linkInfo = req.body.link
+  const link = new Link(linkInfo.collection_id, linkInfo.from_id, linkInfo.to_id, linkInfo.color)
   Link.create(link, (err, data) => {
     if (err) {
       res.cc(err.message)
     } else {
+      console.log(data)
       res.send({
         status: 0,
         message: '创建Link成功！',
         data,
+      })
+    }
+  })
+}
+
+exports.createMany = (req, res) => {
+  const list = req.body.list
+  const collection_id = req.body.collection_id
+  const linkList = []
+  for (let i = 0; i < list.length; i++) {
+    const link = new Link(collection_id, list[i].from_id, list[i].to_id, list[i].color)
+    linkList.push(link)
+  }
+  console.log(linkList)
+  Link.createMany(linkList, (err, data) => {
+    if (err) {
+      res.cc(err.message)
+    } else {
+      console.log(data)
+      res.send({
+        status: 0,
+        message: '创建Link成功！',
+        data
       })
     }
   })
@@ -139,6 +164,22 @@ exports.deleteBySatellite = (req, res) => {
       })
     }
   })
+}
+
+exports.deleteByColSat = (req, res) => {
+  req.query.collection_id && req.query.satellite_id && Link.removeByColSat(req.query.collection_id, req.query.satellite_id, 
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.cc(`找不到该Link`)
+        } else res.cc(err)
+      } else {
+        res.send({
+          status: 0,
+          message: '删除Link数据成功！',
+        })
+      }
+    })
 }
 
 // 删除所有Link信息
